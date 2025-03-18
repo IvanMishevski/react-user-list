@@ -5,10 +5,19 @@ import userService from "./services/userService";
 import Pagination from "./Pagination";
 import Search from "./Search";
 import UserListItem from "./UserListItem";
+import UserCreate from "./userCreate";
 
 
 export default function UserList(){
 const [users, setUsers] = useState([]);
+const [showCreate, setShowCreate] = useState(false);
+
+const createUserClickHandler = () => {
+    setShowCreate(true);
+}
+const closeUserClickHandler = () => {
+    setShowCreate(false);
+}
 
 useEffect(() => {
     userService.getAll()
@@ -22,6 +31,7 @@ useEffect(() => {
 
          <Search/>
 
+          {showCreate && <UserCreate onClose={closeUserClickHandler}/>}
 
           <div className="table-wrapper">
              <div>
@@ -137,7 +147,7 @@ useEffect(() => {
           </div>
 
 
-          <button className="btn-add btn">Add new user</button>
+          <button className="btn-add btn" onClick={createUserClickHandler}>Add new user</button>
 
 
           <Pagination />
