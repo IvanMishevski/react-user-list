@@ -18,6 +18,21 @@ const createUserClickHandler = () => {
 const closeUserClickHandler = () => {
     setShowCreate(false);
 }
+const saveCreateUserClickHandler = async (e) => {
+
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+
+    const data = Object.fromEntries(formData);
+
+    const newUser = await userService.create(data);  
+
+    setUsers(state => [...state, newUser]);
+
+    setShowCreate(false);
+
+}
 
 useEffect(() => {
     userService.getAll()
@@ -31,7 +46,8 @@ useEffect(() => {
 
          <Search/>
 
-          {showCreate && <UserCreate onClose={closeUserClickHandler}/>}
+          {showCreate && 
+          <UserCreate onClose={closeUserClickHandler} onSave={saveCreateUserClickHandler}/>}
 
           <div className="table-wrapper">
              <div>
